@@ -13,3 +13,5 @@ src/main/resources/git-revision.properties
 src/main/avro/
 
 users.avro
+
+dependency-reduced-pom.xml
