@@ -1,16 +1,13 @@
 package io.peleg.pojo;
 
-import io.peleg.pojo.User;
 import org.apache.commons.compress.utils.Lists;
 import org.apache.flink.api.common.state.ListState;
 import org.apache.flink.api.common.state.ListStateDescriptor;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
-import org.apache.flink.streaming.api.functions.ProcessFunction;
 import org.apache.flink.util.Collector;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DataStreamJob {
