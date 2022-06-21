@@ -40,7 +40,9 @@ public class DataStreamJob {
         env.fromElements(user0, user1, user2)
                 .keyBy(user -> 0)
                 .process(new Buffer())
-                .print();
+                .uid("buffer")
+                .print()
+                .uid("sink-print");
 
         env.execute("flink-state-schema-evolution");
     }
