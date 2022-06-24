@@ -1,6 +1,7 @@
 package io.peleg.pojo;
 
 import org.apache.flink.api.common.functions.AggregateFunction;
+import org.apache.flink.api.java.typeutils.PojoTypeInfo;
 import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.windowing.assigners.SlidingProcessingTimeWindows;
@@ -17,6 +18,7 @@ public class DataStreamJob {
         env.enableCheckpointing(12000L, CheckpointingMode.EXACTLY_ONCE);
 
         env.addSource(new RandomUserSourceFunction())
+                .returns(PojoTypeInfo.of(User.class))
                 .keyBy(user -> 0)
                 .window(SlidingProcessingTimeWindows.of(
                         Time.seconds(3L),
