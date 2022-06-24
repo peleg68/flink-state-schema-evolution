@@ -5,19 +5,20 @@ import org.apache.flink.streaming.api.functions.source.SourceFunction;
 
 import java.time.Instant;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class RandomUserSourceFunction implements SourceFunction<User> {
-    private boolean shouldKeepRunning;
+    private AtomicBoolean shouldKeepRunning;
     private final Random random;
 
     public RandomUserSourceFunction() {
-        this.shouldKeepRunning = true;
+        this.shouldKeepRunning = new AtomicBoolean(true);
         this.random = new Random();
     }
 
     @Override
     public void run(SourceContext<User> sourceContext) throws InterruptedException {
-        while (shouldKeepRunning) {
+        while (shouldKeepRunning.get()) {
             User user = randomUser();
 
             sourceContext.collectWithTimestamp(
@@ -31,7 +32,7 @@ public class RandomUserSourceFunction implements SourceFunction<User> {
 
     @Override
     public void cancel() {
-        shouldKeepRunning = false;
+        shouldKeepRunning.set(false);
     }
 
     private User randomUser() {
