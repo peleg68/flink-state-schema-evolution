@@ -16,28 +16,7 @@ public class DataStreamJob {
     public static void main(String[] args) throws Exception {
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
-        User user0 = User.builder()
-                .name("Shmulik")
-                .favoriteNumber(6)
-                .favoriteColor("Blue")
-                .startTime(Instant.ofEpochMilli(16689869L))
-                .build();
-
-        User user1 = User.builder()
-                .name("David")
-                .favoriteNumber(8)
-                .favoriteColor("Red")
-                .startTime(Instant.ofEpochMilli(153252365L))
-                .build();
-
-        User user2 = User.builder()
-                .name("Greg")
-                .favoriteNumber(4)
-                .favoriteColor("Green")
-                .startTime(Instant.ofEpochMilli(1543156426L))
-                .build();
-
-        env.fromElements(user0, user1, user2)
+        env.addSource(new RandomUserSourceFunction())
                 .keyBy(user -> 0)
                 .process(new Buffer())
                 .uid("buffer")
