@@ -31,6 +31,7 @@ public class RandomUserSourceFunction implements SourceFunction<User> {
     private User randomUser() {
         return User.builder()
                 .name(randomString())
+                .favoriteNumber(random.nextInt())
                 .favoriteColor(randomColor())
                 .startTime(Instant.now())
                 .build();
