@@ -1,13 +1,18 @@
 package io.peleg.kryo;
 
 import org.apache.commons.compress.utils.Lists;
+import org.apache.flink.api.common.functions.AggregateFunction;
 import org.apache.flink.api.common.state.ListState;
 import org.apache.flink.api.common.state.ListStateDescriptor;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
+import org.apache.flink.streaming.api.windowing.assigners.SlidingProcessingTimeWindows;
+import org.apache.flink.streaming.api.windowing.time.Time;
+import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.util.Collector;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DataStreamJob {
@@ -17,7 +22,11 @@ public class DataStreamJob {
 
         env.addSource(new RandomUserSourceFunction())
                 .keyBy(user -> 0)
-                .process(new Buffer())
+                .window(SlidingProcessingTimeWindows.of(
+                        Time.seconds(3L),
+                        Time.seconds(1L)
+                ))
+                .aggregate(new Buffer())
                 .uid("buffer")
                 .print()
                 .uid("sink-print");
@@ -25,22 +34,29 @@ public class DataStreamJob {
         env.execute("flink-state-schema-evolution");
     }
 
-    public static class Buffer extends KeyedProcessFunction<Integer, User, List<User>> {
-        private ListState<User> state;
-
+    public static class Buffer implements AggregateFunction<User, List<User>, List<User>> {
         @Override
-        public void open(Configuration parameters) throws Exception {
-            this.state = this.getRuntimeContext().getListState(new ListStateDescriptor<User>("users", User.class) {
-            });
+        public List<User> createAccumulator() {
+            return new ArrayList<>();
         }
 
         @Override
-        public void processElement(User user, KeyedProcessFunction<Integer, User, List<User>>.Context context, Collector<List<User>> collector) throws Exception {
-            state.add(user);
+        public List<User> add(User user, List<User> users) {
+            users.add(user);
 
-            List<User> stateList = Lists.newArrayList(state.get().iterator());
+            return users;
+        }
 
-            collector.collect(stateList);
+        @Override
+        public List<User> getResult(List<User> users) {
+            return users;
+        }
+
+        @Override
+        public List<User> merge(List<User> users, List<User> acc1) {
+            acc1.addAll(users);
+
+            return acc1;
         }
     }
 }
