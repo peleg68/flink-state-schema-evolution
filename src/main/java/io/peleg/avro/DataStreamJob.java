@@ -14,6 +14,8 @@ public class DataStreamJob {
     public static void main(String[] args) throws Exception {
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
+        env.getConfig().enableForceAvro();
+
         env.enableCheckpointing(12000L, CheckpointingMode.EXACTLY_ONCE);
 
         env.addSource(new RandomUserSourceFunction())

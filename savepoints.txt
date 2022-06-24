@@ -49,7 +49,7 @@ Version 1.4.0 - Avro:
     Restore Attempts:
         1.4.0 - Avro - Success
         1.5.0 - Avro - Failed
-        
+
         2022-06-24 17:53:59
         java.lang.Exception: Exception while creating StreamOperatorStateContext.
         	at org.apache.flink.streaming.api.operators.StreamTaskStateInitializerImpl.streamOperatorStateContext(StreamTaskStateInitializerImpl.java:255)
