@@ -1,6 +1,7 @@
 package io.peleg.kryo;
 
 import org.apache.flink.api.common.functions.AggregateFunction;
+import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.windowing.assigners.SlidingProcessingTimeWindows;
 import org.apache.flink.streaming.api.windowing.time.Time;
@@ -12,6 +13,8 @@ public class DataStreamJob {
 
     public static void main(String[] args) throws Exception {
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+
+        env.enableCheckpointing(12000L, CheckpointingMode.EXACTLY_ONCE);
 
         env.addSource(new RandomUserSourceFunction())
                 .keyBy(user -> 0)
