@@ -25,7 +25,7 @@ public class RandomUserSourceFunction implements SourceFunction<User> {
                     user.getStartTime().toEpochMilli()
             );
 
-            Thread.sleep(3000L);
+            Thread.sleep(1000L);
         }
     }
 
