@@ -1,8 +1,8 @@
 package io.peleg.kryo;
 
+import io.peleg.Color;
 import org.apache.flink.streaming.api.functions.source.SourceFunction;
 
-import java.awt.*;
 import java.time.Instant;
 import java.util.Random;
 
@@ -49,6 +49,7 @@ public class RandomUserSourceFunction implements SourceFunction<User> {
     }
 
     private String randomColor() {
-        return new Color(random.nextInt(5)).toString();
+        return Color.values()[random.nextInt(5)]
+                .toString();
     }
 }
