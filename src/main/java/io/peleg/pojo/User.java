@@ -14,5 +14,4 @@ public class User {
     private Integer favoriteNumber;
     private String favoriteColor;
     private Long startTime;
-    private Long endTime;
 }
