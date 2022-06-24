@@ -42,6 +42,7 @@ public class RandomUserSourceFunction implements SourceFunction<User> {
                 .setFavoriteNumber(random.nextInt())
                 .setFavoriteColor(randomColor())
                 .setStartTime(Instant.now())
+                .setEndTime(Instant.now().plus(1L, ChronoUnit.MINUTES))
                 .build();
     }
 

@@ -5,6 +5,7 @@
      {"name": "name", "type": "string"},
      {"name": "favoriteNumber",  "type": ["int", "null"]},
      {"name": "favoriteColor", "type": ["string", "null"]},
-     {"name": "startTime", "type": {"type": "long", "logicalType": "timestamp-millis"}}
+     {"name": "startTime", "type": {"type": "long", "logicalType": "timestamp-millis"}},
+     {"name": "endTime", "type": {"type": "long", "logicalType": "timestamp-millis"}}
  ]
 }
