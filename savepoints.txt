@@ -38,3 +38,14 @@ Version 1.2.2 - POJO:
     Restore Attempts:
         1.2.2 - POJO - Success
         1.3.2 - POJO - Failed
+
+Version 1.4.0 - Avro:
+    Command:
+        ./bin/flink stop 7c8da7c203f4bc51e49abbb545a9f447 -p file:/opt/flink/savepoints/2022-06-24-17-48
+
+    Path:
+        file:/opt/flink/savepoints/2022-06-24-17-48/savepoint-7c8da7-b70e1e00aa6a
+
+    Restore Attempts:
+        1.4.0 - Avro - Success
+        1.5.0 - Avro -
