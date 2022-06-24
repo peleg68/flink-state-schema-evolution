@@ -27,3 +27,14 @@ Version 1.2.1 - POJO:
     Restore Attempts:
         1.2.1 - POJO - Success
         1.3.1 - POJO - Failed
+
+Version 1.2.2 - POJO:
+    Command:
+        ./bin/flink stop b13d03b510d20d88ad3ba2a061a6a435 -p file:/opt/flink/savepoints/2022-06-24-17-35
+
+    Path:
+        file:/opt/flink/savepoints/2022-06-24-17-35/savepoint-b13d03-d5b5ad4978ab
+
+    Restore Attempts:
+        1.2.2 - POJO - Success
+        1.3.2 - POJO - Failed
