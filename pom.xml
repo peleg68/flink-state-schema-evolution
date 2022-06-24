@@ -65,6 +65,11 @@ under the License.
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.flink</groupId>
+			<artifactId>flink-avro</artifactId>
+			<version>${flink.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>1.18.24</version>
@@ -116,6 +121,26 @@ under the License.
 					<source>${target.java.version}</source>
 					<target>${target.java.version}</target>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.avro</groupId>
+				<artifactId>avro-maven-plugin</artifactId>
+				<version>1.10.0</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>schema</goal>
+						</goals>
+						<configuration>
+							<sourceDirectory>${avro.sourceDirectory}</sourceDirectory>
+							<outputDirectory>${avro.outputDirectory}</outputDirectory>
+							<customConversions>org.apache.avro.data.TimeConversions$TimestampMillisConversion</customConversions>
+							<stringType>String</stringType>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 
 			<!-- We use the maven-shade plugin to create a fat jar that contains all necessary dependencies. -->
