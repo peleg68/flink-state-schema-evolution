@@ -15,10 +15,12 @@ public class DataStreamJob {
     public static void main(String[] args) throws Exception {
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
+        env.getConfig().registerPojoType(User.class);
+        env.getConfig().disableForceKryo();
+
         env.enableCheckpointing(12000L, CheckpointingMode.EXACTLY_ONCE);
 
         env.addSource(new RandomUserSourceFunction())
-                .returns(PojoTypeInfo.of(User.class))
                 .keyBy(user -> 0)
                 .window(SlidingProcessingTimeWindows.of(
                         Time.seconds(3L),
