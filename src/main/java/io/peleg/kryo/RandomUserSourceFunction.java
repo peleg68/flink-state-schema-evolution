@@ -7,25 +7,31 @@ import java.time.Instant;
 import java.util.Random;
 
 public class RandomUserSourceFunction implements SourceFunction<User> {
+    private boolean shouldKeepRunning;
     private final Random random;
 
     public RandomUserSourceFunction() {
+        this.shouldKeepRunning = true;
         this.random = new Random();
     }
 
     @Override
-    public void run(SourceContext<User> sourceContext) {
-        User user = randomUser();
+    public void run(SourceContext<User> sourceContext) throws InterruptedException {
+        while (shouldKeepRunning) {
+            User user = randomUser();
 
-        sourceContext.collectWithTimestamp(
-                user,
-                user.getStartTime().toEpochMilli()
-        );
+            sourceContext.collectWithTimestamp(
+                    user,
+                    user.getStartTime().toEpochMilli()
+            );
+
+            Thread.sleep(3000L);
+        }
     }
 
     @Override
     public void cancel() {
-
+        shouldKeepRunning = false;
     }
 
     private User randomUser() {
