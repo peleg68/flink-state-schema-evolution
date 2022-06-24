@@ -4,6 +4,7 @@ import io.peleg.Color;
 import org.apache.flink.streaming.api.functions.source.SourceFunction;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -41,6 +42,7 @@ public class RandomUserSourceFunction implements SourceFunction<User> {
                 .favoriteNumber(random.nextInt())
                 .favoriteColor(randomColor())
                 .startTime(Instant.now())
+                .endTime(Instant.now().plus(1L, ChronoUnit.MINUTES))
                 .build();
     }
 

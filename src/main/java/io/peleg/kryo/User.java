@@ -16,4 +16,5 @@ public class User {
     private Integer favoriteNumber;
     private String favoriteColor;
     private Instant startTime;
+    private Instant endTime;
 }
