@@ -13,8 +13,7 @@ public class JobRunner<T> {
         this.sourceFunction = sourceFunction;
     }
 
-    public void run(StreamExecutionEnvironment environment) throws Exception {
-        final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+    public void run(StreamExecutionEnvironment env) throws Exception {
 
         env.enableCheckpointing(12000L, CheckpointingMode.EXACTLY_ONCE);
 
