@@ -247,3 +247,26 @@ Caused by: java.lang.IndexOutOfBoundsException: Index 67 out of bounds for lengt
 	at com.esotericsoftware.kryo.Kryo.readObjectOrNull(Kryo.java:728)
 	at com.esotericsoftware.kryo.serializers.ObjectField.read(ObjectField.java:113)
 	... 31 more
+
+
+Version 1.4.4 - Avro:
+    Command:
+        ./bin/flink stop 65bd87aebd979f5f463032e78c6467c7 -p file:/opt/flink/savepoints/2022-07-30-13-20
+
+    Path:
+        file:/opt/flink/savepoints/2022-07-30-13-20/savepoint-65bd87-9bdac5da628d
+
+    Restore Attempts:
+        1.4.4 - Avro - Success
+        1.5.4 - Avro - Failed
+
+2022-07-30 13:26:38
+Path in schema: --> endTime
+	at org.apache.avro.generic.GenericData.getDefaultValue(GenericData.java:1176)
+	at org.apache.avro.data.RecordBuilderBase.defaultValue(RecordBuilderBase.java:138)
+	at io.peleg.avro.User$Builder.build(User.java:549)
+	at io.peleg.avro.RandomUserSourceFunction.randomUser(RandomUserSourceFunction.java:45)
+	at io.peleg.avro.RandomUserSourceFunction.run(RandomUserSourceFunction.java:23)
+	at org.apache.flink.streaming.api.operators.StreamSource.run(StreamSource.java:110)
+	at org.apache.flink.streaming.api.operators.StreamSource.run(StreamSource.java:67)
+	at org.apache.flink.streaming.runtime.tasks.SourceStreamTask$LegacySourceFunctionThread.run(SourceStreamTask.java:332)
