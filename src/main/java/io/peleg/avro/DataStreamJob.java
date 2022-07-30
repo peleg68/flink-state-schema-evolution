@@ -9,7 +9,6 @@ public class DataStreamJob {
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
         env.getConfig().enableForceAvro();
-        env.getConfig().disableGenericTypes();
 
         JobRunner<User> jobRunner = new JobRunner<User>(User.class, new RandomUserSourceFunction());
 
