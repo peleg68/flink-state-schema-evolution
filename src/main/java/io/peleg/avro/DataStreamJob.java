@@ -11,7 +11,7 @@ public class DataStreamJob {
         env.getConfig().enableForceAvro();
         env.getConfig().disableGenericTypes();
 
-        JobRunner<User> jobRunner = new JobRunner<User>(new RandomUserSourceFunction());
+        JobRunner<User> jobRunner = new JobRunner<User>(User.class, new RandomUserSourceFunction());
 
         jobRunner.run(env);
     }

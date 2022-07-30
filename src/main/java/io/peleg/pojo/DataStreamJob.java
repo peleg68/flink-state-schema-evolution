@@ -11,7 +11,7 @@ public class DataStreamJob {
         env.getConfig().registerPojoType(User.class);
         env.getConfig().disableForceKryo();
 
-        JobRunner<User> jobRunner = new JobRunner<User>(new RandomUserSourceFunction());
+        JobRunner<User> jobRunner = new JobRunner<User>(User.class, new RandomUserSourceFunction());
 
         jobRunner.run(env);
     }

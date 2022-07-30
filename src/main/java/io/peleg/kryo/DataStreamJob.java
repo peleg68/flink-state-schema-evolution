@@ -8,7 +8,7 @@ public class DataStreamJob {
     public static void main(String[] args) throws Exception {
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
-        JobRunner<User> jobRunner = new JobRunner<User>(new RandomUserSourceFunction());
+        JobRunner<User> jobRunner = new JobRunner<User>(User.class, new RandomUserSourceFunction());
 
         jobRunner.run(env);
     }
