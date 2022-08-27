@@ -397,3 +397,72 @@ Caused by: java.lang.IndexOutOfBoundsException: Index 80 out of bounds for lengt
 	at com.esotericsoftware.kryo.Kryo.readObjectOrNull(Kryo.java:728)
 	at com.esotericsoftware.kryo.serializers.ObjectField.read(ObjectField.java:113)
 	... 31 more
+
+
+Version 1.4.7 - Avro:
+    Command:
+        ./bin/flink stop 9ab0b977db494a15d2fa1e9350addc1a -p file:/opt/flink/savepoints/2022-08-27-14-00
+
+    Path:
+        file:/opt/flink/savepoints/2022-08-27-14-00/savepoint-9ab0b9-0e0a4025f68f
+
+    Restore Attempts:
+        1.4.7 - Avro - Success
+        1.5.7 - Avro - Failed
+
+2022-08-27 14:07:27
+java.lang.Exception: Exception while creating StreamOperatorStateContext.
+	at org.apache.flink.streaming.api.operators.StreamTaskStateInitializerImpl.streamOperatorStateContext(StreamTaskStateInitializerImpl.java:255)
+	at org.apache.flink.streaming.api.operators.AbstractStreamOperator.initializeState(AbstractStreamOperator.java:268)
+	at org.apache.flink.streaming.runtime.tasks.RegularOperatorChain.initializeStateAndOpenOperators(RegularOperatorChain.java:106)
+	at org.apache.flink.streaming.runtime.tasks.StreamTask.restoreGates(StreamTask.java:700)
+	at org.apache.flink.streaming.runtime.tasks.StreamTaskActionExecutor$1.call(StreamTaskActionExecutor.java:55)
+	at org.apache.flink.streaming.runtime.tasks.StreamTask.restoreInternal(StreamTask.java:676)
+	at org.apache.flink.streaming.runtime.tasks.StreamTask.restore(StreamTask.java:643)
+	at org.apache.flink.runtime.taskmanager.Task.runWithSystemExitMonitoring(Task.java:948)
+	at org.apache.flink.runtime.taskmanager.Task.restoreAndInvoke(Task.java:917)
+	at org.apache.flink.runtime.taskmanager.Task.doRun(Task.java:741)
+	at org.apache.flink.runtime.taskmanager.Task.run(Task.java:563)
+	at java.base/java.lang.Thread.run(Unknown Source)
+Caused by: org.apache.flink.util.FlinkException: Could not restore keyed state backend for WindowOperator_3983d6bb2f0a45b638461bc99138f22f_(2/2) from any of the 1 provided restore options.
+	at org.apache.flink.streaming.api.operators.BackendRestorerProcedure.createAndRestore(BackendRestorerProcedure.java:160)
+	at org.apache.flink.streaming.api.operators.StreamTaskStateInitializerImpl.keyedStatedBackend(StreamTaskStateInitializerImpl.java:346)
+	at org.apache.flink.streaming.api.operators.StreamTaskStateInitializerImpl.streamOperatorStateContext(StreamTaskStateInitializerImpl.java:164)
+	... 11 more
+Caused by: org.apache.flink.runtime.state.BackendBuildingException: Failed when trying to restore heap backend
+	at org.apache.flink.runtime.state.heap.HeapKeyedStateBackendBuilder.restoreState(HeapKeyedStateBackendBuilder.java:172)
+	at org.apache.flink.runtime.state.heap.HeapKeyedStateBackendBuilder.build(HeapKeyedStateBackendBuilder.java:106)
+	at org.apache.flink.runtime.state.hashmap.HashMapStateBackend.createKeyedStateBackend(HashMapStateBackend.java:143)
+	at org.apache.flink.runtime.state.hashmap.HashMapStateBackend.createKeyedStateBackend(HashMapStateBackend.java:74)
+	at org.apache.flink.runtime.state.StateBackend.createKeyedStateBackend(StateBackend.java:140)
+	at org.apache.flink.streaming.api.operators.StreamTaskStateInitializerImpl.lambda$keyedStatedBackend$1(StreamTaskStateInitializerImpl.java:329)
+	at org.apache.flink.streaming.api.operators.BackendRestorerProcedure.attemptCreateAndRestore(BackendRestorerProcedure.java:168)
+	at org.apache.flink.streaming.api.operators.BackendRestorerProcedure.createAndRestore(BackendRestorerProcedure.java:135)
+	... 13 more
+Caused by: com.esotericsoftware.kryo.KryoException: java.lang.IndexOutOfBoundsException: Index 80 out of bounds for length 3
+Serialization trace:
+favoriteColor (io.peleg.avro.User)
+	at com.esotericsoftware.kryo.serializers.ObjectField.read(ObjectField.java:125)
+	at com.esotericsoftware.kryo.serializers.FieldSerializer.read(FieldSerializer.java:528)
+	at com.esotericsoftware.kryo.Kryo.readClassAndObject(Kryo.java:761)
+	at com.esotericsoftware.kryo.serializers.CollectionSerializer.read(CollectionSerializer.java:116)
+	at com.esotericsoftware.kryo.serializers.CollectionSerializer.read(CollectionSerializer.java:22)
+	at com.esotericsoftware.kryo.Kryo.readClassAndObject(Kryo.java:761)
+	at org.apache.flink.api.java.typeutils.runtime.kryo.KryoSerializer.deserialize(KryoSerializer.java:402)
+	at org.apache.flink.runtime.state.heap.HeapSavepointRestoreOperation.readKVStateData(HeapSavepointRestoreOperation.java:219)
+	at org.apache.flink.runtime.state.heap.HeapSavepointRestoreOperation.readKeyGroupStateData(HeapSavepointRestoreOperation.java:149)
+	at org.apache.flink.runtime.state.heap.HeapSavepointRestoreOperation.restore(HeapSavepointRestoreOperation.java:125)
+	at org.apache.flink.runtime.state.heap.HeapSavepointRestoreOperation.restore(HeapSavepointRestoreOperation.java:57)
+	at org.apache.flink.runtime.state.heap.HeapKeyedStateBackendBuilder.restoreState(HeapKeyedStateBackendBuilder.java:169)
+	... 20 more
+Caused by: java.lang.IndexOutOfBoundsException: Index 80 out of bounds for length 3
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Unknown Source)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Unknown Source)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Unknown Source)
+	at java.base/java.util.Objects.checkIndex(Unknown Source)
+	at java.base/java.util.ArrayList.get(Unknown Source)
+	at com.esotericsoftware.kryo.util.MapReferenceResolver.getReadObject(MapReferenceResolver.java:42)
+	at com.esotericsoftware.kryo.Kryo.readReferenceOrNull(Kryo.java:805)
+	at com.esotericsoftware.kryo.Kryo.readObjectOrNull(Kryo.java:728)
+	at com.esotericsoftware.kryo.serializers.ObjectField.read(ObjectField.java:113)
+	... 31 more
