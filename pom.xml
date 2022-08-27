@@ -22,7 +22,7 @@ under the License.
 
 	<groupId>io.peleg</groupId>
 	<artifactId>flink-state-schema-evolution</artifactId>
-	<version>1.5.8</version>
+	<version>1.5.9</version>
 	<packaging>jar</packaging>
 
 	<properties>
