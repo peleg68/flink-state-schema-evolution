@@ -17,7 +17,7 @@ public class DataStreamJob {
         JobRunner<User> jobRunner = new JobRunner<User>(
                 User.class, new TypeHint<List<User>>() {},
                 new RandomUserSourceFunction(),
-                new Buffer<User>() {});
+                new AvroBuffer());
 
         jobRunner.run(env);
     }
