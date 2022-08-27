@@ -13,11 +13,13 @@ public class JobRunner<T> {
     private final Class<T> clazz;
     private final TypeHint<List<T>> windowOutput;
     private final SourceFunction<T> sourceFunction;
+    private final Buffer<T> aggregateFunction;
 
-    public JobRunner(Class<T> clazz, TypeHint<List<T>> windowOutput, SourceFunction<T> sourceFunction) {
+    public JobRunner(Class<T> clazz, TypeHint<List<T>> windowOutput, SourceFunction<T> sourceFunction, Buffer<T> aggregateFunction) {
         this.clazz = clazz;
         this.windowOutput = windowOutput;
         this.sourceFunction = sourceFunction;
+        this.aggregateFunction = aggregateFunction;
     }
 
     public void run(StreamExecutionEnvironment env) throws Exception {
@@ -29,7 +31,7 @@ public class JobRunner<T> {
                         Time.seconds(3L),
                         Time.seconds(1L)
                 ))
-                .aggregate(new Buffer<T>()).returns(windowOutput)
+                .aggregate(aggregateFunction).returns(windowOutput)
                 .uid("buffer")
                 .print()
                 .uid("sink-print");
