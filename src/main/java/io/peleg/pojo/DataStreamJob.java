@@ -1,5 +1,6 @@
 package io.peleg.pojo;
 
+import io.peleg.Buffer;
 import io.peleg.JobRunner;
 import org.apache.flink.api.common.typeinfo.TypeHint;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -14,7 +15,11 @@ public class DataStreamJob {
         env.getConfig().registerPojoType(User.class);
         env.getConfig().disableForceKryo();
 
-        JobRunner<User> jobRunner = new JobRunner<User>(User.class, new TypeHint<List<User>>() {}, new RandomUserSourceFunction());
+        JobRunner<User> jobRunner = new JobRunner<User>(
+                User.class,
+                new TypeHint<List<User>>() {},
+                new RandomUserSourceFunction(),
+                new Buffer<User>() {});
 
         jobRunner.run(env);
     }
