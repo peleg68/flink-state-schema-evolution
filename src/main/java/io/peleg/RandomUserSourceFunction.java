@@ -1,6 +1,7 @@
-package io.peleg.pojo;
+package io.peleg;
 
 import io.peleg.Color;
+import io.peleg.avro.User;
 import org.apache.flink.streaming.api.functions.source.SourceFunction;
 
 import java.time.Instant;
@@ -24,7 +25,7 @@ public class RandomUserSourceFunction implements SourceFunction<User> {
 
             sourceContext.collectWithTimestamp(
                     user,
-                    user.getStartTime()
+                    user.getStartTime().toEpochMilli()
             );
 
             Thread.sleep(1000L);
@@ -37,12 +38,11 @@ public class RandomUserSourceFunction implements SourceFunction<User> {
     }
 
     private User randomUser() {
-        return User.builder()
-                .name(randomString())
-                .favoriteNumber(random.nextInt())
-                .favoriteColor(randomColor())
-                .startTime(Instant.now().toEpochMilli())
-                .endTime(Instant.now().plus(1L, ChronoUnit.MINUTES).toEpochMilli())
+        return User.newBuilder()
+                .setName(randomString())
+                .setFavoriteNumber(random.nextInt())
+                .setFavoriteColor(randomColor())
+                .setStartTime(Instant.now())
                 .build();
     }
 

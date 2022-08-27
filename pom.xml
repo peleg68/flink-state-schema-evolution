@@ -187,7 +187,7 @@ under the License.
 							<transformers>
 								<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
 								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>io.peleg.avro.DataStreamJob</mainClass>
+									<mainClass>io.peleg.DataStreamJob</mainClass>
 								</transformer>
 							</transformers>
 						</configuration>

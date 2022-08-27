@@ -1,30 +1,31 @@
 package io.peleg;
 
+import io.peleg.avro.User;
 import org.apache.flink.api.common.functions.AggregateFunction;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Buffer<T> implements AggregateFunction<T, List<T>, List<T>> {
+public class Buffer implements AggregateFunction<User, List<User>, List<User>> {
     @Override
-    public List<T> createAccumulator() {
+    public List<User> createAccumulator() {
         return new ArrayList<>();
     }
 
     @Override
-    public List<T> add(T user, List<T> users) {
+    public List<User> add(User user, List<User> users) {
         users.add(user);
 
         return users;
     }
 
     @Override
-    public List<T> getResult(List<T> users) {
+    public List<User> getResult(List<User> users) {
         return users;
     }
 
     @Override
-    public List<T> merge(List<T> users, List<T> acc1) {
+    public List<User> merge(List<User> users, List<User> acc1) {
         acc1.addAll(users);
 
         return acc1;

@@ -1,5 +1,6 @@
 package io.peleg;
 
+import io.peleg.avro.User;
 import org.apache.flink.api.common.typeinfo.TypeHint;
 import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -9,15 +10,11 @@ import org.apache.flink.streaming.api.windowing.time.Time;
 
 import java.util.List;
 
-public class JobRunner<T> {
-    private final Class<T> clazz;
-    private final TypeHint<List<T>> windowOutput;
-    private final SourceFunction<T> sourceFunction;
-    private final Buffer<T> aggregateFunction;
+public class JobRunner {
+    private final SourceFunction<User> sourceFunction;
+    private final Buffer aggregateFunction;
 
-    public JobRunner(Class<T> clazz, TypeHint<List<T>> windowOutput, SourceFunction<T> sourceFunction, Buffer<T> aggregateFunction) {
-        this.clazz = clazz;
-        this.windowOutput = windowOutput;
+    public JobRunner(SourceFunction<User> sourceFunction, Buffer aggregateFunction) {
         this.sourceFunction = sourceFunction;
         this.aggregateFunction = aggregateFunction;
     }
@@ -25,13 +22,13 @@ public class JobRunner<T> {
     public void run(StreamExecutionEnvironment env) throws Exception {
         env.enableCheckpointing(12000L, CheckpointingMode.EXACTLY_ONCE);
 
-        env.addSource(sourceFunction).returns(clazz)
+        env.addSource(sourceFunction).returns(User.class)
                 .keyBy(user -> 0)
                 .window(SlidingProcessingTimeWindows.of(
                         Time.seconds(3L),
                         Time.seconds(1L)
                 ))
-                .aggregate(aggregateFunction).returns(windowOutput)
+                .aggregate(aggregateFunction).returns(new TypeHint<List<User>>() {})
                 .uid("buffer")
                 .print()
                 .uid("sink-print");
