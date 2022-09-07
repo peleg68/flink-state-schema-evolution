@@ -604,3 +604,15 @@ Caused by: java.lang.IndexOutOfBoundsException: Index 194 out of bounds for leng
 	at com.esotericsoftware.kryo.Kryo.readObjectOrNull(Kryo.java:728)
 	at com.esotericsoftware.kryo.serializers.ObjectField.read(ObjectField.java:113)
 	... 31 more
+
+
+Version 1.4.10 - Avro:
+    Command:
+        ./bin/flink stop 7eed4c18b323df47b762dcdd05fc5d67 -p file:/opt/flink/savepoints/2022-09-07-21-00
+
+    Path:
+        file:/opt/flink/savepoints/2022-09-07-21-00/savepoint-7eed4c-6a2244cd85cb
+
+    Restore Attempts:
+        1.4.10 - Avro - Success
+        1.5.10 - Avro - Success
